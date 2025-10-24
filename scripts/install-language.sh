@@ -20,4 +20,4 @@ for language in "${languages_array[@]}"; do
     unzip ${language}.zip
     rm ${language}.zip
 done
-chown -R www-data.www-data /var/www/html/web/app/languages/
+chown -R www-data:www-data /var/www/html/web/app/languages/
