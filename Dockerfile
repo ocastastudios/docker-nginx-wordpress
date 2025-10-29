@@ -12,7 +12,8 @@ RUN apk --no-cache add \
   ssmtp \
   nginx \
   supervisor \
-  composer
+  composer \
+  redis
 
 # Install PHP extensions and PECL packages in a single layer
 # https://make.wordpress.org/hosting/handbook/handbook/server-environment/#php-extensions
