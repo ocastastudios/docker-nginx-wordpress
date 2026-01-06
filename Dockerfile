@@ -1,4 +1,4 @@
-FROM php:8.3-fpm-alpine3.22
+FROM php:8.3-fpm-alpine3.23
 LABEL Maintainer="Ocasta" \
   Description="Nginx PHP8.3 Wordpress Bedrock"
 
@@ -11,6 +11,7 @@ RUN apk --no-cache add \
   imagemagick \
   ssmtp \
   nginx \
+  nginx-mod-http-headers-more \
   supervisor \
   composer \
   redis
@@ -95,7 +96,7 @@ COPY config/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 # Install Bedrock with optimized Composer settings
 # Sometime Bedrock don't have a release with the latest WP version and you have to use the dependabot commit
 # RUN curl -L -o wordpress.tar.gz https://github.com/roots/bedrock/archive/84133b258efabbcbbd258137fd199fd1f742f3d6.tar.gz  && tar --strip=1 -xzvf wordpress.tar.gz && rm wordpress.tar.gz && composer install --no-dev
-RUN curl -L https://github.com/roots/bedrock/archive/refs/tags/1.28.3.tar.gz | tar -xz --strip=1 && \
+RUN curl -L https://github.com/roots/bedrock/archive/refs/tags/1.28.4.tar.gz | tar -xz --strip=1 && \
   composer install --no-dev --optimize-autoloader && \
   composer clear-cache
 
