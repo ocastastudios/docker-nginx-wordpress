@@ -102,15 +102,27 @@ RUN curl -L https://github.com/roots/bedrock/archive/refs/tags/1.28.4.tar.gz | t
 
 # Install WordPress language packs
 COPY scripts/install-language.sh /usr/local/bin/install-language.sh
-RUN /usr/local/bin/install-language.sh es_ES fr_FR && \
+RUN /usr/local/bin/install-language.sh de_DE es_ES fr_FR it_IT ja ko_KR pt_PT sv_SE zh_CN zh_TW && \
   rm -f /usr/local/bin/install-language.sh
 
 # Install Arabic language pack (temporary hack until newer version available)
 # Check https://make.wordpress.org/polyglots/teams/?locale=ar for updates
 RUN cd /var/www/html/web/app/languages && \
-  curl -sSL https://downloads.wordpress.org/translation/core/6.1.1/ar.zip -O && \
+  curl -sSL https://downloads.wordpress.org/translation/core/6.2/ar.zip -O && \
   unzip -q ar.zip && \
   rm ar.zip
+
+# Install Icelandic language pack (temporary hack until newer version available)
+RUN cd /var/www/html/web/app/languages && \
+  curl -sSL https://downloads.wordpress.org/translation/core/4.8.27/is_IS.zip -O && \
+  unzip -q is_IS.zip && \
+  rm is_IS.zip
+
+# Install Thai language pack (temporary hack until newer version available)
+RUN cd /var/www/html/web/app/languages && \
+  curl -sSL https://downloads.wordpress.org/translation/core/5.2/th.zip -O && \
+  unzip -q th.zip && \
+  rm th.zip
 
 # Create uploads directory and set permissions
 RUN mkdir -p /var/www/html/web/app/uploads && \
