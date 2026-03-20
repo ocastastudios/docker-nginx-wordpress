@@ -96,7 +96,7 @@ COPY config/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 # Install Bedrock with optimized Composer settings
 # Sometime Bedrock don't have a release with the latest WP version and you have to use the dependabot commit
 # RUN curl -L -o wordpress.tar.gz https://github.com/roots/bedrock/archive/84133b258efabbcbbd258137fd199fd1f742f3d6.tar.gz  && tar --strip=1 -xzvf wordpress.tar.gz && rm wordpress.tar.gz && composer install --no-dev
-RUN curl -L https://github.com/roots/bedrock/archive/refs/tags/1.28.5.tar.gz | tar -xz --strip=1 && \
+RUN curl -L https://github.com/roots/bedrock/archive/refs/tags/1.29.2.tar.gz | tar -xz --strip=1 && \
   composer install --no-dev --optimize-autoloader && \
   composer clear-cache
 
