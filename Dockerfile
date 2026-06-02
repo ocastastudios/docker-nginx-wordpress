@@ -1,4 +1,5 @@
-FROM php:8.3-fpm-alpine3.23
+FROM composer:2 AS composer
+FROM php:8.4-fpm-alpine3.23
 LABEL Maintainer="Ocasta" \
   Description="Nginx PHP8.3 Wordpress Bedrock"
 
@@ -7,13 +8,12 @@ RUN apk --no-cache add \
   bash \
   sed \
   ghostscript \
-  php83-xml \
+  php84-xml \
   imagemagick \
   ssmtp \
   nginx \
   nginx-mod-http-headers-more \
   supervisor \
-  composer \
   redis
 
 # Install PHP extensions and PECL packages in a single layer
@@ -94,9 +94,11 @@ COPY config/php.ini /usr/local/etc/php/conf.d/zzz_custom.ini
 COPY config/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
 # Install Bedrock with optimized Composer settings
+# Use the Docker-official Composer so it runs against /usr/local/bin/php (which has tokenizer)
+COPY --from=composer /usr/bin/composer /usr/local/bin/composer
 # Sometime Bedrock don't have a release with the latest WP version and you have to use the dependabot commit
 # RUN curl -L -o wordpress.tar.gz https://github.com/roots/bedrock/archive/84133b258efabbcbbd258137fd199fd1f742f3d6.tar.gz  && tar --strip=1 -xzvf wordpress.tar.gz && rm wordpress.tar.gz && composer install --no-dev
-RUN curl -L https://github.com/roots/bedrock/archive/refs/tags/1.31.0.tar.gz | tar -xz --strip=1 && \
+RUN set -x && curl -L https://github.com/roots/bedrock/archive/refs/tags/1.31.0.tar.gz | tar -xz --strip=1 && \
   composer install --no-dev --optimize-autoloader && \
   composer clear-cache
 
