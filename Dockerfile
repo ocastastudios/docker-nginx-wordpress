@@ -96,31 +96,24 @@ COPY config/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 # Install Bedrock with optimized Composer settings
 # Sometime Bedrock don't have a release with the latest WP version and you have to use the dependabot commit
 # RUN curl -L -o wordpress.tar.gz https://github.com/roots/bedrock/archive/84133b258efabbcbbd258137fd199fd1f742f3d6.tar.gz  && tar --strip=1 -xzvf wordpress.tar.gz && rm wordpress.tar.gz && composer install --no-dev
-RUN curl -L https://github.com/roots/bedrock/archive/refs/tags/1.29.2.tar.gz | tar -xz --strip=1 && \
+RUN curl -L https://github.com/roots/bedrock/archive/refs/tags/1.31.0.tar.gz | tar -xz --strip=1 && \
   composer install --no-dev --optimize-autoloader && \
   composer clear-cache
 
 # Install WordPress language packs
 COPY scripts/install-language.sh /usr/local/bin/install-language.sh
-RUN /usr/local/bin/install-language.sh de_DE es_ES fr_FR it_IT ja ko_KR pt_PT sv_SE zh_CN zh_TW && \
+RUN /usr/local/bin/install-language.sh ar de_DE es_ES fr_FR it_IT ja ko_KR pt_PT sv_SE zh_CN zh_TW && \
   rm -f /usr/local/bin/install-language.sh
-
-# Install Arabic language pack (temporary hack until newer version available)
-# Check https://make.wordpress.org/polyglots/teams/?locale=ar for updates
-RUN cd /var/www/html/web/app/languages && \
-  curl -sSL https://downloads.wordpress.org/translation/core/6.2/ar.zip -O && \
-  unzip -q ar.zip && \
-  rm ar.zip
 
 # Install Icelandic language pack (temporary hack until newer version available)
 RUN cd /var/www/html/web/app/languages && \
-  curl -sSL https://downloads.wordpress.org/translation/core/4.8.27/is_IS.zip -O && \
+  curl -sSL https://downloads.wordpress.org/translation/core/4.9.28/is_IS.zip -O && \
   unzip -q is_IS.zip && \
   rm is_IS.zip
 
 # Install Thai language pack (temporary hack until newer version available)
 RUN cd /var/www/html/web/app/languages && \
-  curl -sSL https://downloads.wordpress.org/translation/core/5.2/th.zip -O && \
+  curl -sSL https://downloads.wordpress.org/translation/core/5.8.13/th.zip -O && \
   unzip -q th.zip && \
   rm th.zip
 
