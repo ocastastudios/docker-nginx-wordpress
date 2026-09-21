@@ -1,7 +1,7 @@
 FROM composer:2 AS composer
 FROM php:8.4-fpm-alpine3.23
 LABEL Maintainer="Ocasta" \
-  Description="Nginx PHP8.3 Wordpress Bedrock"
+  Description="Nginx PHP8.4 Wordpress Bedrock"
 
 # Install runtime dependencies
 RUN apk --no-cache add \
@@ -98,13 +98,13 @@ COPY config/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 COPY --from=composer /usr/bin/composer /usr/local/bin/composer
 # Sometime Bedrock don't have a release with the latest WP version and you have to use the dependabot commit
 # RUN curl -L -o wordpress.tar.gz https://github.com/roots/bedrock/archive/84133b258efabbcbbd258137fd199fd1f742f3d6.tar.gz  && tar --strip=1 -xzvf wordpress.tar.gz && rm wordpress.tar.gz && composer install --no-dev
-RUN set -x && curl -L https://github.com/roots/bedrock/archive/refs/tags/1.31.3.tar.gz | tar -xz --strip=1 && \
+RUN set -x && curl -L https://github.com/roots/bedrock/archive/refs/tags/1.31.5.tar.gz | tar -xz --strip=1 && \
   composer install --no-dev --optimize-autoloader && \
   composer clear-cache
 
 # Install WordPress language packs
 COPY scripts/install-language.sh /usr/local/bin/install-language.sh
-RUN /usr/local/bin/install-language.sh ar de_DE es_ES fr_FR it_IT ja ko_KR pt_PT sv_SE zh_CN zh_TW && \
+RUN /usr/local/bin/install-language.sh ar de_DE es_ES fr_FR it_IT ja ko_KR pt_PT sv_SE zh_CN && \
   rm -f /usr/local/bin/install-language.sh
 
 # Install Icelandic language pack (temporary hack until newer version available)
@@ -118,6 +118,13 @@ RUN cd /var/www/html/web/app/languages && \
   curl -sSL https://downloads.wordpress.org/translation/core/5.8.13/th.zip -O && \
   unzip -q th.zip && \
   rm th.zip
+
+# Install Traditional Chinese language pack (temporary hack until newer version available)
+# No zh_TW pack exists for WP 7.1.1 yet; 7.0.4 is the newest published
+RUN cd /var/www/html/web/app/languages && \
+  curl -sSL https://downloads.wordpress.org/translation/core/7.0.4/zh_TW.zip -O && \
+  unzip -q zh_TW.zip && \
+  rm zh_TW.zip
 
 # Create uploads directory and set permissions
 RUN mkdir -p /var/www/html/web/app/uploads && \
