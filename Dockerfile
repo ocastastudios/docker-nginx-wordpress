@@ -98,7 +98,7 @@ COPY config/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 COPY --from=composer /usr/bin/composer /usr/local/bin/composer
 # Sometime Bedrock don't have a release with the latest WP version and you have to use the dependabot commit
 # RUN curl -L -o wordpress.tar.gz https://github.com/roots/bedrock/archive/84133b258efabbcbbd258137fd199fd1f742f3d6.tar.gz  && tar --strip=1 -xzvf wordpress.tar.gz && rm wordpress.tar.gz && composer install --no-dev
-RUN set -x && curl -L https://github.com/roots/bedrock/archive/refs/tags/1.31.5.tar.gz | tar -xz --strip=1 && \
+RUN set -x && curl -L https://github.com/roots/bedrock/archive/refs/tags/1.31.6.tar.gz | tar -xz --strip=1 && \
   composer install --no-dev --optimize-autoloader && \
   composer clear-cache
 
@@ -120,7 +120,7 @@ RUN cd /var/www/html/web/app/languages && \
   rm th.zip
 
 # Install Traditional Chinese language pack (temporary hack until newer version available)
-# No zh_TW pack exists for WP 7.1.1 yet; 7.0.4 is the newest published
+# No zh_TW pack exists for WP 7.1.2 yet; 7.0.4 is the newest published
 RUN cd /var/www/html/web/app/languages && \
   curl -sSL https://downloads.wordpress.org/translation/core/7.0.4/zh_TW.zip -O && \
   unzip -q zh_TW.zip && \
