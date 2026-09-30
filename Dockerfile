@@ -104,7 +104,7 @@ RUN set -x && curl -L https://github.com/roots/bedrock/archive/refs/tags/1.31.6.
 
 # Install WordPress language packs
 COPY scripts/install-language.sh /usr/local/bin/install-language.sh
-RUN /usr/local/bin/install-language.sh ar de_DE es_ES fr_FR it_IT ja ko_KR pt_PT sv_SE zh_CN && \
+RUN /usr/local/bin/install-language.sh ar cs_CZ de_DE en_GB es_ES fr_FR hr it_IT ja ko_KR pl_PL pt_BR pt_PT ro_RO sv_SE zh_CN && \
   rm -f /usr/local/bin/install-language.sh
 
 # Install Icelandic language pack (temporary hack until newer version available)
@@ -125,6 +125,13 @@ RUN cd /var/www/html/web/app/languages && \
   curl -sSL https://downloads.wordpress.org/translation/core/7.0.4/zh_TW.zip -O && \
   unzip -q zh_TW.zip && \
   rm zh_TW.zip
+
+# Install Hong Kong Chinese language pack (temporary hack until newer version available)
+# No zh_HK pack exists for WP 7.1.2 yet; 6.2.13 is the newest published
+RUN cd /var/www/html/web/app/languages && \
+  curl -sSL https://downloads.wordpress.org/translation/core/6.2.13/zh_HK.zip -O && \
+  unzip -q zh_HK.zip && \
+  rm zh_HK.zip
 
 # Create uploads directory and set permissions
 RUN mkdir -p /var/www/html/web/app/uploads && \
