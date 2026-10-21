@@ -1,5 +1,5 @@
 FROM composer:2 AS composer
-FROM php:8.4-fpm-alpine3.23
+FROM php:8.4.27-fpm-alpine3.23
 LABEL Maintainer="Ocasta" \
   Description="Nginx PHP8.4 Wordpress Bedrock"
 
