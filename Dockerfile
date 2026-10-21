@@ -98,7 +98,7 @@ COPY config/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 COPY --from=composer /usr/bin/composer /usr/local/bin/composer
 # Sometime Bedrock don't have a release with the latest WP version and you have to use the dependabot commit
 # RUN curl -L -o wordpress.tar.gz https://github.com/roots/bedrock/archive/84133b258efabbcbbd258137fd199fd1f742f3d6.tar.gz  && tar --strip=1 -xzvf wordpress.tar.gz && rm wordpress.tar.gz && composer install --no-dev
-RUN set -x && curl -L https://github.com/roots/bedrock/archive/refs/tags/1.31.6.tar.gz | tar -xz --strip=1 && \
+RUN set -x && curl -L https://github.com/roots/bedrock/archive/refs/tags/1.31.7.tar.gz | tar -xz --strip=1 && \
   composer install --no-dev --optimize-autoloader && \
   composer clear-cache
 
@@ -109,27 +109,27 @@ RUN /usr/local/bin/install-language.sh ar cs_CZ de_DE en_GB es_ES fr_FR hr it_IT
 
 # Install Icelandic language pack (temporary hack until newer version available)
 RUN cd /var/www/html/web/app/languages && \
-  curl -sSL https://downloads.wordpress.org/translation/core/4.9.28/is_IS.zip -O && \
+  curl -sSL https://downloads.wordpress.org/translation/core/4.9.34/is_IS.zip -O && \
   unzip -q is_IS.zip && \
   rm is_IS.zip
 
 # Install Thai language pack (temporary hack until newer version available)
 RUN cd /var/www/html/web/app/languages && \
-  curl -sSL https://downloads.wordpress.org/translation/core/5.8.13/th.zip -O && \
+  curl -sSL https://downloads.wordpress.org/translation/core/5.8.18/th.zip -O && \
   unzip -q th.zip && \
   rm th.zip
 
 # Install Traditional Chinese language pack (temporary hack until newer version available)
-# No zh_TW pack exists for WP 7.1.2 yet; 7.0.4 is the newest published
+# No zh_TW pack exists for WP 7.1.3 yet; 7.0.7 is the newest published
 RUN cd /var/www/html/web/app/languages && \
-  curl -sSL https://downloads.wordpress.org/translation/core/7.0.4/zh_TW.zip -O && \
+  curl -sSL https://downloads.wordpress.org/translation/core/7.0.7/zh_TW.zip -O && \
   unzip -q zh_TW.zip && \
   rm zh_TW.zip
 
 # Install Hong Kong Chinese language pack (temporary hack until newer version available)
-# No zh_HK pack exists for WP 7.1.2 yet; 6.2.13 is the newest published
+# No zh_HK pack exists for WP 7.1.3 yet; 6.2.14 is the newest published
 RUN cd /var/www/html/web/app/languages && \
-  curl -sSL https://downloads.wordpress.org/translation/core/6.2.13/zh_HK.zip -O && \
+  curl -sSL https://downloads.wordpress.org/translation/core/6.2.14/zh_HK.zip -O && \
   unzip -q zh_HK.zip && \
   rm zh_HK.zip
 
