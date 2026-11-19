@@ -23,7 +23,7 @@ for language in "${languages_array[@]}"; do
   # -f turns an HTTP error (e.g. a 404 for a not-yet-published pack) into a non-zero exit
   if ! curl -fsSL "https://downloads.wordpress.org/translation/core/${WP_VERSION}/${language}.zip" -O; then
     echo "ERROR: no ${language} language pack published for WordPress ${WP_VERSION}." >&2
-    echo "       Pin it to the newest available version in the Dockerfile, as is_IS/th/zh_TW are." >&2
+    echo "       Pin it to the newest available version in the Dockerfile, as is_IS/th/zh_HK are." >&2
     exit 1
   fi
   unzip -q "${language}.zip"
